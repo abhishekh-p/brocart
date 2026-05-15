@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>checkout_page</h3>
+    <table>
+        <tr>
+            <th>product</th>
+            <th>prise</th>
+            <th>quantity</th>
+            <th>total</th>
+        </tr>
+        <tr>
+            {% for items in item %}
+            <td><img src="{{items.products.img.url}}" alt="" width="100"></td>
+            <td>{{items.products.prize}}</td>
+            <td>{{items.quantity}}</td>
+            
+        </tr>
+        {% endfor %}
+    </table>
+    
+    <h3>crat total:{{total}}</h3>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="radio" name="payment" value="cod" checked><br><br>
+
+        cash on delivery<br><br>
+
+        <input type="radio" name="payment" value="online" checked><br><br>
+        
+        online payment <br><br>
+        <button type="submit">place order</button>
+    </form>
+</body>
+</html>

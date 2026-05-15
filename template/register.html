@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+        {% endif %}
+        <label for="password">username</label>
+        <input type="text" name="name" placeholder="enter your name here" required><br>
+
+
+        <label for="password">password</label>
+        <input type="password" name="password" required><br>
+
+        <label for="phone_number">phone number</label>
+        <input type="text" name="phone_number" required><br>
+
+        <label for="address">address</label>
+        <input type="text" name="address" required><br>
+
+        <button type="submit">create account</button>
+    </form>
+</body>
+</html>

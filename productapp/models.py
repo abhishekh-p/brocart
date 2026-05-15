@@ -11,7 +11,7 @@ class product(models.Model):
     discription = models.TextField()
     img = models.ImageField(upload_to="image/")
     priority = models.IntegerField(default=0)
-    delet_status = models.IntegerField(choices=delete_choice,default=LIVE)
+    delete_status = models.IntegerField(choices=delete_choice,default=LIVE)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 

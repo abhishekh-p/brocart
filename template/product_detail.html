@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="{% url 'home' %}">← Back to products</a>
+    <h1>{{ product.title }}</h1>
+    <img src="{{ product.img.url }}" alt="{{ product.title }}" width="300">
+    <p><strong>Price:</strong> ${{ product.prize }}</p>
+    <p>{{ product.discription }}</p>
+    <a href="{% url 'add_to_cart' product.id %}">add to cart</a>
+</body>
+</html>

@@ -1,0 +1,12 @@
+Page not found (404)
+Request Method:	GET
+Request URL:	http://127.0.0.1:8000/accounts/login/?next=/order/add_to_cart/1/
+Using the URLconf defined in brocart.urls, Django tried these URL patterns, in this order:
+
+admin/
+products/ [name='home']
+products_details/<int:pk>/ [name='product_details']
+customer/
+order/
+^media/(?P<path>.*)$
+The current path, accounts/login/, didn’t match any of these.

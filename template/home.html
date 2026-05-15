@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="{% url 'register' %}">register</a>
+    {% for product in products %}
+    <div>
+        <a href="{% url 'product_details' product.pk %}">
+            <img src="{{ product.img.url }}" alt="{{ product.title }}" width="200">
+            <p>{{ product.title }}</p>
+        </a>
+        <p>${{ product.prize }}</p>
+    </div>
+    {% endfor %}
+</body>
+</html>

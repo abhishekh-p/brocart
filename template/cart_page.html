@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>CART PAGE</h2>
+    <table>
+        <tr>
+            <th>product</th>
+            <th>prize</th>
+            <th>quantity</th>
+            <th>total</th>
+            
+        </tr>
+        <tr>
+            {% for item in items %}
+            <td><img src="{{item.products.img.url}}" alt="{{item.products.title}}" width="100"></td>
+            <td>{{item.products.prize}}</td>
+            <td>{{item.quantity}}</td>
+            
+            
+        </tr>
+        {% endfor %}
+        h3 cart total:{{total}}
+    </table>
+    <a href="{% url 'check_out' %}">checkout</a>
+</body>
+</html>
