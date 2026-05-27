@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="{% url 'register' %}">register</a>
+    
     {% for product in products %}
     <div>
         <a href="{% url 'product_details' product.pk %}">

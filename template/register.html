@@ -3,28 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Create Account</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:linear-gradient(to right,#141e30,#243b55);
+        }
+
+        .register-box{
+            width:400px;
+            background:white;
+            padding:40px;
+            border-radius:15px;
+            box-shadow:0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .register-box h2{
+            text-align:center;
+            margin-bottom:30px;
+            color:#111827;
+            font-size:32px;
+        }
+
+        .input-group{
+            margin-bottom:20px;
+        }
+
+        .input-group label{
+            display:block;
+            margin-bottom:8px;
+            font-weight:bold;
+            color:#333;
+        }
+
+        .input-group input{
+            width:100%;
+            padding:13px;
+            border:1px solid #ccc;
+            border-radius:8px;
+            font-size:15px;
+            transition:0.3s;
+        }
+
+        .input-group input:focus{
+            outline:none;
+            border-color:#2563eb;
+            box-shadow:0 0 5px rgba(37,99,235,0.3);
+        }
+
+        .error-message{
+            color:red;
+            margin-bottom:15px;
+            text-align:center;
+            font-size:14px;
+        }
+
+        .register-btn{
+            width:100%;
+            padding:14px;
+            background:#111827;
+            color:white;
+            border:none;
+            border-radius:8px;
+            font-size:16px;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .register-btn:hover{
+            background:#2563eb;
+        }
+
+        .login-link{
+            margin-top:20px;
+            text-align:center;
+            font-size:15px;
+        }
+
+        .login-link a{
+            color:#2563eb;
+            text-decoration:none;
+            font-weight:bold;
+        }
+
+        .login-link a:hover{
+            text-decoration:underline;
+        }
+
+    </style>
+
 </head>
+
 <body>
-    <form method="POST">
-        {% csrf_token %}
-        {% if error_message %}
-        <p style="color: red;">{{ error_message }}</p>
-        {% endif %}
-        <label for="password">username</label>
-        <input type="text" name="name" placeholder="enter your name here" required><br>
 
+    <div class="register-box">
 
-        <label for="password">password</label>
-        <input type="password" name="password" required><br>
+        <h2>Create Account</h2>
 
-        <label for="phone_number">phone number</label>
-        <input type="text" name="phone_number" required><br>
+        <form method="POST">
 
-        <label for="address">address</label>
-        <input type="text" name="address" required><br>
+            {% csrf_token %}
 
-        <button type="submit">create account</button>
-    </form>
+            {% if error_message %}
+            <p class="error-message">
+                {{ error_message }}
+            </p>
+            {% endif %}
+
+            <div class="input-group">
+
+                <label>Username</label>
+
+                <input type="text"
+                       name="name"
+                       placeholder="Enter your username"
+                       required>
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Password</label>
+
+                <input type="password"
+                       name="password"
+                       placeholder="Enter your password"
+                       required>
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Phone Number</label>
+
+                <input type="text"
+                       name="phone_number"
+                       placeholder="Enter your phone number"
+                       required>
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Address</label>
+
+                <input type="text"
+                       name="address"
+                       placeholder="Enter your address"
+                       required>
+
+            </div>
+
+            <button type="submit" class="register-btn">
+                Create Account
+            </button>
+
+            <div class="login-link">
+
+                Already have an account?
+                <a href="{% url 'login' %}">
+                    Login
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
 </body>
-</html>
+</html> 

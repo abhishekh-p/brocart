@@ -3,39 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Checkout Page</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            background:#f4f6f9;
+            padding:40px;
+        }
+
+        .checkout-container{
+            max-width:1100px;
+            margin:auto;
+            background:white;
+            padding:35px;
+            border-radius:15px;
+            box-shadow:0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .title{
+            text-align:center;
+            font-size:36px;
+            color:#111827;
+            margin-bottom:30px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-bottom:30px;
+        }
+
+        table th{
+            background:#111827;
+            color:white;
+            padding:15px;
+            font-size:16px;
+            text-align:center;
+        }
+
+        table td{
+            padding:18px;
+            text-align:center;
+            border-bottom:1px solid #ddd;
+            font-size:16px;
+            color:#333;
+        }
+
+        .product-img{
+            width:90px;
+            height:90px;
+            object-fit:cover;
+            border-radius:10px;
+        }
+
+        .cart-total{
+            text-align:right;
+            font-size:25px;
+            font-weight:bold;
+            color:#16a34a;
+            margin-bottom:35px;
+        }
+
+        .payment-box{
+            background:#f9fafb;
+            padding:25px;
+            border-radius:12px;
+            border:1px solid #ddd;
+        }
+
+        .payment-title{
+            font-size:24px;
+            margin-bottom:20px;
+            color:#111827;
+        }
+
+        .payment-option{
+            margin-bottom:18px;
+            font-size:18px;
+            color:#333;
+            display:flex;
+            align-items:center;
+            gap:10px;
+            padding:15px;
+            background:white;
+            border-radius:8px;
+            border:1px solid #ddd;
+            transition:0.3s;
+        }
+
+        .payment-option:hover{
+            border-color:#2563eb;
+            background:#f0f7ff;
+        }
+
+        .payment-option input{
+            transform:scale(1.2);
+        }
+
+        .place-btn{
+            width:100%;
+            padding:15px;
+            background:#111827;
+            color:white;
+            border:none;
+            border-radius:8px;
+            font-size:17px;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.3s;
+            margin-top:20px;
+        }
+
+        .place-btn:hover{
+            background:#2563eb;
+        }
+
+        .secure-text{
+            text-align:center;
+            margin-top:15px;
+            color:#666;
+            font-size:14px;
+        }
+
+        @media(max-width:768px){
+
+            body{
+                padding:20px;
+            }
+
+            .title{
+                font-size:28px;
+            }
+
+            table th,
+            table td{
+                font-size:14px;
+                padding:10px;
+            }
+
+            .product-img{
+                width:70px;
+                height:70px;
+            }
+
+            .payment-option{
+                font-size:15px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 <body>
-    <h3>checkout_page</h3>
-    <table>
-        <tr>
-            <th>product</th>
-            <th>prise</th>
-            <th>quantity</th>
-            <th>total</th>
-        </tr>
-        <tr>
+
+    <div class="checkout-container">
+
+        <h3 class="title">
+            Checkout Page
+        </h3>
+
+        <table>
+
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+
             {% for items in item %}
-            <td><img src="{{items.products.img.url}}" alt="" width="100"></td>
-            <td>{{items.products.prize}}</td>
-            <td>{{items.quantity}}</td>
-            
-        </tr>
-        {% endfor %}
-    </table>
-    
-    <h3>crat total:{{total}}</h3>
 
-    <form method="POST">
-        {% csrf_token %}
-        <input type="radio" name="payment" value="cod" checked><br><br>
+            <tr>
 
-        cash on delivery<br><br>
+                <td>
+                    <img src="{{ items.products.img.url }}"
+                         alt="{{ items.products.title }}"
+                         class="product-img">
+                </td>
 
-        <input type="radio" name="payment" value="online" checked><br><br>
-        
-        online payment <br><br>
-        <button type="submit">place order</button>
-    </form>
+                <td>
+                    ₹ {{ items.products.prize }}
+                </td>
+
+                <td>
+                    {{ items.quantity }}
+                </td>
+
+                <td>
+                    ₹ {% widthratio items.products.prize 1 items.quantity %}
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        <div class="cart-total">
+            Cart Total : ₹ {{ total }}
+        </div>
+
+        <div class="payment-box">
+
+            <h3 class="payment-title">
+                Select Payment Method
+            </h3>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <!-- CASH ON DELIVERY -->
+
+                <label class="payment-option">
+
+                    <input type="radio"
+                           name="payment"
+                           value="cod"
+                           checked>
+
+                    Cash on Delivery
+
+                </label>
+
+                <!-- ONLINE PAYMENT -->
+
+                <label class="payment-option">
+
+                    <input type="radio"
+                           name="payment"
+                           value="online">
+
+                    Pay Online (UPI / Card / Net Banking)
+
+                </label>
+
+                <button type="submit" class="place-btn">
+                    Place Order
+                </button>
+
+                <p class="secure-text">
+                    🔒 Secure payments powered by Razorpay
+                </p>
+
+            </form>
+
+        </div>
+
+    </div>
+
 </body>
 </html>

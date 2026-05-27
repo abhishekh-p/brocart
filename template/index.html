@@ -1,29 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>MyShop</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body>
+<h1>WELCOME TO MY SHOP</h1>
 
-<header>
-    <h1>MyShop</h1>
-    <nav>
-        <a href="{% url 'home' %}">Home</a>
-        <a href="/products">Products</a>
-        <a href="{% url 'view_cart' %}">Cart</a>
-        <a href="{% url 'login' %}">Login</a>
-    </nav>
-</header>
+<div class="container">
 
-<main>
-    {% block content %}{% endblock %}
-</main>
+    {% for product in products %}
 
-<footer>
-    <p>© 2025 MyShop</p>
-</footer>
+    <div class="card">
 
-</body>
-</html>
+        <img src="{{ product.img.url }}"
+             alt="{{ product.title }}"
+             width="200">
+
+        <h3>{{ product.title }}</h3>
+
+        <p>₹ {{ product.prize }}</p>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

@@ -4,6 +4,8 @@ from .models import order, orderItem,payment
 from productapp.models import product
 from django.contrib.auth.decorators import login_required
 from customerapp.models import customers
+import razorpay
+from django.conf import settings
 
 
 # Create your views here.
@@ -58,33 +60,71 @@ def view_cart_page(request):
 
 @login_required
 def check_out(request):
-    cart=get_or_create_cart(request)
+
+    cart = get_or_create_cart(request)
     item = cart.order_item.all()
 
     total = 0
 
-    for items in item: 
+    for items in item:
         if items.products:
             total += items.quantity * items.products.prize
 
-    
+    amount = int(total * 100)
+
+    client = razorpay.Client(
+        auth=(
+            settings.RAZORPAY_KEY_ID,
+            settings.RAZORPAY_KEY_SECRET
+        )
+    )
+
+    razorpay_order = client.order.create({
+        "amount": amount,
+        "currency": "INR",
+        "payment_capture": "1"
+    })
+
+    razorpay_order_id = razorpay_order['id']
 
     if request.method == 'POST':
+
         payment_type = request.POST.get('payment')
 
+        # CASH ON DELIVERY
         if payment_type == 'cod':
-            payment.objects.create(payment_method = payment.payment_cod,payment_order=cart)
-        
-        else:
-            payment.objects.create(payment_method = payment.payment_cod,payment_order=cart)
-            
-        cart.ORDER_STATUS = order.ORDER_CONFIRMED
-        cart.save()
 
-        return redirect("order_success")
+            payment.objects.create(
+                payment_method=payment.payment_cod,
+                payment_order=cart
+            )
 
-    context ={'cart':cart,"total":total,"item":item}
-    return render(request,"checkout_page.html",context)
+            cart.ORDER_STATUS = order.ORDER_CONFIRMED
+            cart.save()
+
+            return redirect("order_success")
+
+        # ONLINE PAYMENT
+        elif payment_type == 'online':
+
+            context = {
+                "cart": cart,
+                "item": item,
+                "total": total,
+                "razorpay_order_id": razorpay_order_id,
+                "razorpay_key": settings.RAZORPAY_KEY_ID,
+                "amount": amount,
+            }
+
+            return render(request, "payment.html", context)
+
+    context = {
+        "cart": cart,
+        "item": item,
+        "total": total
+    }
+
+    return render(request, "checkout_page.html", context)
 
 def success_page(request):
     return render(request,'success.html')

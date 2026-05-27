@@ -3,29 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Cart Page</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            background:#f4f6f9;
+            padding:40px;
+        }
+
+        .cart-container{
+            max-width:1100px;
+            margin:auto;
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .cart-title{
+            text-align:center;
+            margin-bottom:30px;
+            font-size:35px;
+            color:#111827;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-bottom:30px;
+        }
+
+        table th{
+            background:#111827;
+            color:white;
+            padding:15px;
+            text-align:center;
+            font-size:16px;
+        }
+
+        table td{
+            padding:20px;
+            text-align:center;
+            border-bottom:1px solid #ddd;
+            font-size:16px;
+            color:#333;
+        }
+
+        .product-img{
+            width:100px;
+            height:100px;
+            object-fit:cover;
+            border-radius:10px;
+        }
+
+        .cart-total{
+            text-align:right;
+            font-size:24px;
+            font-weight:bold;
+            margin-bottom:25px;
+            color:#16a34a;
+        }
+
+        .checkout-btn{
+            display:inline-block;
+            text-decoration:none;
+            background:#111827;
+            color:white;
+            padding:14px 25px;
+            border-radius:8px;
+            font-size:16px;
+            font-weight:bold;
+            transition:0.3s;
+        }
+
+        .checkout-btn:hover{
+            background:#2563eb;
+            transform:translateY(-3px);
+        }
+
+        .btn-box{
+            text-align:right;
+        }
+
+        @media(max-width:768px){
+
+            table{
+                font-size:14px;
+            }
+
+            .product-img{
+                width:70px;
+                height:70px;
+            }
+
+            .cart-title{
+                font-size:28px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 <body>
-    <h2>CART PAGE</h2>
-    <table>
-        <tr>
-            <th>product</th>
-            <th>prize</th>
-            <th>quantity</th>
-            <th>total</th>
-            
-        </tr>
-        <tr>
+
+    <div class="cart-container">
+
+        <h2 class="cart-title">
+            Shopping Cart
+        </h2>
+
+        <table>
+
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+
             {% for item in items %}
-            <td><img src="{{item.products.img.url}}" alt="{{item.products.title}}" width="100"></td>
-            <td>{{item.products.prize}}</td>
-            <td>{{item.quantity}}</td>
-            
-            
-        </tr>
-        {% endfor %}
-        h3 cart total:{{total}}
-    </table>
-    <a href="{% url 'check_out' %}">checkout</a>
+
+            <tr>
+
+                <td>
+                    <img src="{{ item.products.img.url }}"
+                         alt="{{ item.products.title }}"
+                         class="product-img">
+                </td>
+
+                <td>
+                    ₹ {{ item.products.prize }}
+                </td>
+
+                <td>
+                    {{ item.quantity }}
+                </td>
+
+                <td>
+                    ₹ {% widthratio item.products.prize 1 item.quantity %}
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        <div class="cart-total">
+            Cart Total : ₹ {{ total }}
+        </div>
+
+        <div class="btn-box">
+
+            <a href="{% url 'check_out' %}" class="checkout-btn">
+                Proceed to Checkout
+            </a>
+
+        </div>
+
+    </div>
+
 </body>
 </html>

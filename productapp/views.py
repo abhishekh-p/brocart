@@ -5,13 +5,15 @@ from .models import product
 
 def index(request):
     """Home page view."""
-    return render(request, 'index.html')
+    products = product.objects.all()
+    context = {'products':products}
+    return render(request, 'index.html',context)
 
 def list_product(request):
     ''"list all product"''
     products = product.objects.all()
     context = {'products':products}
-    return render(request,'home.html',context)
+    return render(request,'HOMEGPT.HTML',context)
 
 def product_detail(request, pk):
     """Show a single product by id."""
