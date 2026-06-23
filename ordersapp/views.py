@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import order, orderItem,payment
 from productapp.models import product
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+
 from customerapp.models import customers
 import razorpay
 from django.conf import settings
@@ -45,6 +47,7 @@ def add_to_cart(request, pk):
 def view_cart_page(request): 
     cart = get_or_create_cart(request)
     items = cart.order_item.all()
+    prod = product.objects.all()
 
     total = 0
 
@@ -53,9 +56,18 @@ def view_cart_page(request):
             total += item.products.prize * item.quantity
     
 
-    context = {'cart': cart, 'items': items, 'total': total}
+    context = {'cart': cart, 'items': items, 'total': total, 'products':prod}
     
     return render(request, 'cart_page.html', context)
+
+
+def delete_cart_item(request,id):
+    cart = get_or_create_cart(request)
+    prod = get_object_or_404(orderItem,id = id)
+    prod.delete()
+    
+    return redirect('view_cart')
+    
 
 
 @login_required
@@ -128,6 +140,19 @@ def check_out(request):
 
 def success_page(request):
     return render(request,'success.html')
+
+
+
+#admin panel......................
+
+def view_all_order(request):
+    orders = order.objects.count()
+    products = product.objects.count()
+    context = { 'total_order':orders,
+               'products':products}
+    return render(request,"admin_order_details.html",context)
+
+
 
 
 

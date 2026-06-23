@@ -153,6 +153,10 @@
                     ₹ {% widthratio item.products.prize 1 item.quantity %}
                 </td>
 
+                <td>
+                    <a href="{% url 'delete_cart_item' item.id %}">detete</a>
+                </td>
+
             </tr>
 
             {% endfor %}

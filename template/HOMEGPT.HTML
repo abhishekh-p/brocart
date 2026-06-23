@@ -57,7 +57,7 @@
 
         .hero{
             width:100%;
-            height:300px;
+            height:350px;
             background:linear-gradient(to right,#141e30,#243b55);
             display:flex;
             justify-content:center;
@@ -75,6 +75,38 @@
         .hero p{
             font-size:18px;
             opacity:0.9;
+            margin-bottom:25px;
+        }
+
+        /* SEARCH FORM */
+
+        .search-form{
+            display:flex;
+            gap:10px;
+            margin-top:10px;
+        }
+
+        .search-form input{
+            padding:12px;
+            width:260px;
+            border:none;
+            border-radius:8px;
+            outline:none;
+            font-size:15px;
+        }
+
+        .search-form button{
+            padding:12px 20px;
+            border:none;
+            background:#2563eb;
+            color:white;
+            border-radius:8px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .search-form button:hover{
+            background:#1d4ed8;
         }
 
         /* PRODUCTS */
@@ -139,6 +171,13 @@
             background:#2563eb;
         }
 
+        .no-products{
+            text-align:center;
+            font-size:28px;
+            color:#444;
+            margin-top:40px;
+        }
+
         /* FOOTER */
 
         .footer{
@@ -167,6 +206,7 @@
             <a href="#">Home</a>
             <a href="{% url 'view_cart' %}">Cart</a>
             <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'logout' %}">Logout</a>
         </div>
 
     </div>
@@ -181,6 +221,20 @@
             Discover amazing products at the best prices
         </p>
 
+        <!-- SEARCH FORM -->
+
+        <form method="GET" action="{% url 'search_product' %}" class="search-form">
+
+            <input type="text"
+                   name="q"
+                   placeholder="Search products">
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
     </div>
 
     <!-- PRODUCT SECTION -->
@@ -191,7 +245,15 @@
 
         <div class="card">
 
-            <img src="{{ product.img.url }}" alt="{{ product.title }}">
+            {% if product.img %}
+
+                <img src="{{ product.img.url }}" alt="{{ product.title }}">
+
+            {% else %}
+
+                <p style="padding:20px;">No image added</p>
+
+            {% endif %}
 
             <div class="card-body">
 
@@ -209,6 +271,12 @@
 
             </div>
 
+        </div>
+
+        {% empty %}
+
+        <div class="no-products">
+            No products found
         </div>
 
         {% endfor %}

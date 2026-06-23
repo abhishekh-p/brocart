@@ -9,10 +9,14 @@
 
     <div class="card">
 
-        <img src="{{ product.img.url }}"
-             alt="{{ product.title }}"
-             width="200">
+        {% if product.img %}
 
+            <img src="{{ product.img.url }}"
+                alt="{{ product.title }}"
+                width="200">
+        {% else %}
+            <p>no image availble</p>
+        {% endif %}
         <h3>{{ product.title }}</h3>
 
         <p>₹ {{ product.prize }}</p>

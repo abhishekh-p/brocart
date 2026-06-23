@@ -84,7 +84,7 @@ def log_in(request):
 
         if admin_user is not None and admin_user.is_staff:
             login(request, admin_user)
-            return redirect('home')
+            return redirect('admin_home')
         if user is not None:
             login(request,user)
             return redirect('home')
@@ -96,10 +96,12 @@ def log_in(request):
 
 def log_out(request):
     logout(request)
-    return redirect(login)
+    contex={'success_message':'you have been logged out successfully .'}
+    return render(request,'login.html')
 
 @login_required
 def profile(request):
     user_profile = customers.objects.get(user=request.user)
     context={"profile":user_profile}
     return render(request,'profile.html',context)
+

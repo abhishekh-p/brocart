@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="{% url 'edit_product' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="newtitle" value="{{product.title}}"><br><br>
+
+        <input type="text" name="newprise" value="{{product.prise}}"><br><br>
+
+        <input type="text" name="newdiscription" value="{{product.discription}}"><br><br>
+
+        {% if product.img %}
+            <img src="{{product.img.url}}" alt="{{product.title}}" width="150"> <br><br>
+        {% endif %}
+        <input type="FILES" name="newimage" >
+
+        <button type="submit">update</button>
+    </form>
+</body>
+</html>

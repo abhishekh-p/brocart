@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            background:#f4f6f9;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:100vh;
+        }
+
+        .container{
+            width:450px;
+            background:white;
+            padding:30px;
+            border-radius:12px;
+            box-shadow:0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h2{
+            text-align:center;
+            margin-bottom:25px;
+            color:#111827;
+        }
+
+        .form-group{
+            margin-bottom:15px;
+        }
+
+        label{
+            display:block;
+            margin-bottom:6px;
+            font-weight:bold;
+            color:#374151;
+        }
+
+        input,
+        textarea{
+            width:100%;
+            padding:12px;
+            border:1px solid #d1d5db;
+            border-radius:8px;
+            outline:none;
+            font-size:15px;
+        }
+
+        input:focus,
+        textarea:focus{
+            border-color:#2563eb;
+        }
+
+        textarea{
+            resize:none;
+            height:100px;
+        }
+
+        .btn{
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:8px;
+            background:#2563eb;
+            color:white;
+            font-size:16px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .btn:hover{
+            background:#1d4ed8;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+
+        <h2>Add Product</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Product Name</label>
+                <input type="text"
+                       name="title_name"
+                       placeholder="Enter product name"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>Price</label>
+                <input type="text"
+                       name="prise"
+                       placeholder="Enter product price"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea name="discription"
+                          placeholder="Enter product description"
+                          required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Product Image</label>
+                <input type="file"
+                       name="image"
+                       required>
+            </div>
+
+            <button type="submit" class="btn">
+                Add Product
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

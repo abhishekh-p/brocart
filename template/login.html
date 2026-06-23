@@ -127,8 +127,13 @@
 
             {% if error_message %}
                 <p class="error">{{ error_message }}</p>
+                
             {% endif %}
 
+            {% if success_message %}
+                <p class ="success">{{success_message}}</p>
+            
+            {% endif %}
             <div class="input-group">
 
                 <label>Username</label>
