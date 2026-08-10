@@ -112,6 +112,51 @@
             display:flex;
             gap:10px;
         }
+        /* SEARCH FORM */
+
+        .search-form{
+            display:flex;
+            gap:10px;
+        }
+
+        .search-form input{
+            width:250px;
+            padding:10px;
+            border:1px solid #ccc;
+            border-radius:6px;
+            outline:none;
+        }
+
+        .search-form button{
+            background:#2563eb;
+            color:white;
+            border:none;
+            padding:10px 15px;
+            border-radius:6px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .search-form button:hover{
+            background:#1d4ed8;
+        }
+
+/* LOGOUT BUTTON */
+
+        .logout-btn{
+            text-decoration:none;
+            background:#374151;
+            color:white;
+            padding:10px 18px;
+            border-radius:6px;
+            display:inline-block;
+            margin-bottom:20px;
+            transition:0.3s;
+        }
+
+        .logout-btn:hover{
+            background:#111827;
+        }
     </style>
 </head>
 
@@ -120,17 +165,7 @@
     <div class="top-bar">
         <h1>Admin Dashboard</h1>
 
-        <form method="GET" action="{% url 'admin_home' %}" class="search-form">
-
-            <input type="text"
-                   name="q"
-                   placeholder="Search products">
-
-            <button type="submit">
-                Search
-            </button>
-
-        </form>
+        
 
 
         <a href="{% url 'add_product' %}" class="add-btn">
@@ -148,6 +183,12 @@
 
         </form>
     </div>
+    <div style="margin-bottom:20px;">
+        <a href="{% url 'logout' %}" class="logout-btn">
+            Logout
+        </a>
+    </div>
+    
 
     <table>
 

@@ -1,0 +1,29 @@
+from ordersapp.models import order
+
+@login_required
+def profile(request):
+
+    user_profile = customers.objects.get(user=request.user)
+
+    cart = order.objects.filter(
+        owner=user_profile,
+        ORDER_STATUS=order.cart_stage,
+        delete_status=order.LIVE
+    ).first()
+
+    cart_items = []
+    total = 0
+
+    if cart:
+        cart_items = cart.order_item.all()
+
+        for item in cart_items:
+            total += item.products.prize * item.quantity
+
+    context = {
+        "profile": user_profile,
+        "cart_items": cart_items,
+        "total": total,
+    }
+
+    return render(request, "profile.html", context)

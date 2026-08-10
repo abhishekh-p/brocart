@@ -60,7 +60,7 @@ def view_cart_page(request):
     
     return render(request, 'cart_page.html', context)
 
-
+@login_required
 def delete_cart_item(request,id):
     cart = get_or_create_cart(request)
     prod = get_object_or_404(orderItem,id = id)

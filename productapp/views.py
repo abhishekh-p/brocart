@@ -6,13 +6,15 @@ from django.contrib.auth.decorators import login_required
 
 def index(request):
     """Home page view."""
-    products = product.objects.all()
+    products = product.objects.filter(delete_status = product.LIVE)
     context = {'products':products}
     return render(request, 'index.html',context)
 
+
+@login_required
 def list_product(request):
     ''"list all product"''
-    products = product.objects.all()
+    products = product.objects.filter(delete_status = product.LIVE)
     context = {'products':products}
     return render(request,'HOMEGPT.HTML',context)
 

@@ -1,50 +1,124 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
-    <title>MyShop</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet"
-          href="{% static 'css/login.css' %}">
+    <title>BroCart</title>
+
+    <!-- External CSS (optional) -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,sans-serif;
+        }
+
+        body{
+            background:#f5f7fa;
+        }
+
+        /* NAVBAR */
+
+        .navbar{
+            background:#111827;
+            padding:18px 40px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            box-shadow:0 2px 10px rgba(0,0,0,.1);
+        }
+
+        .logo{
+            font-size:30px;
+            font-weight:bold;
+        }
+
+        .logo a{
+            text-decoration:none;
+            color:white;
+        }
+
+        .nav-links{
+            display:flex;
+            gap:20px;
+        }
+
+        .nav-links a{
+            text-decoration:none;
+            color:white;
+            transition:.3s;
+        }
+
+        .nav-links a:hover{
+            color:#38bdf8;
+        }
+
+        /* FOOTER */
+
+        .footer{
+            margin-top:60px;
+            background:#111827;
+            color:white;
+            text-align:center;
+            padding:20px;
+        }
+
+    </style>
 
 </head>
 
 <body>
 
-<header>
+    <!-- NAVBAR -->
 
-    <h1>MyShop</h1>
+    <div class="navbar">
 
-    <nav>
+        <div class="logo">
+            <a href="{% url 'home' %}">BroCart</a>
+        </div>
 
-        <a href="{% url 'home' %}">Home</a>
+        <div class="nav-links">
 
-        <a href="/products">Products</a>
+            <a href="{% url 'home' %}">Home</a>
 
-        <a href="{% url 'view_cart' %}">Cart</a>
+            <a href="{% url 'view_cart' %}">Cart</a>
 
-        <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'customer_profile' %}">Profile</a>
 
-    </nav>
+            <a href="{% url 'login' %}">Login</a>
 
-</header>
+            <a href="{% url 'logout' %}">Logout</a>
 
-<main>
+        </div>
 
-    {% block content %}
+    </div>
 
-    {% endblock %}
+    <!-- PAGE CONTENT -->
 
-</main>
+    <main>
 
-<footer>
+        {% block content %}
 
-    <p>© 2025 MyShop</p>
+        {% endblock %}
 
-</footer>
+    </main>
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        <p>© 2026 BroCart | All Rights Reserved</p>
+
+    </div>
 
 </body>
 

@@ -7,7 +7,7 @@ from .import views
 urlpatterns = [
     
     path('', views.index),
-    # path('admin_dasboard/',include('customerapp.url')),
+    
     path('products/', views.list_product,name='home'),
     path('products_details/<int:pk>/', views.product_detail,name='product_details'),
     path('admin_home/',views.admin_home_page,name="admin_home"),
