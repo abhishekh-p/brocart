@@ -71,11 +71,32 @@ def register(request):
         #     )
 
 
-        
+        # genarate 6 digit otp
 
-        return redirect("login")
+        otp  = str(random.randint(100000,999999))
+
+        # store registration information temberorly
+
+        request.session["username"] = username
+
+        request.session["password"] = password
+
+        request.session["phone_number"] = phone_number
+
+        request.session["address"] = address
+
+        request.session["otp"] = otp
+
+        # for now print in terminal
+
+        print(otp)
+
+
+        return redirect("verify_otp")
 
     return render(request, "register.html")
+
+
 
 
 def log_in(request):
@@ -137,3 +158,53 @@ def update_profile(request):
         
     return render(request,"update_profile.html",context)
 
+
+
+def verify_otp(request):
+    if request.method == "POST":
+
+        enter_otp = request.POST.get('otp')
+        saved_otp = request.session.get('otp')
+
+        if enter_otp == saved_otp :
+            username = request.session.get('username')
+            password = request.session.get('password')
+            phone_number = request.session.get('phone_number')
+            address = request.session.get('address')
+
+        #check again before creating user
+
+            if User.objects.filter(username=username).exists():
+                return render(request,"verify_otp.html",{"error_message":"username already exist!!!!"})
+
+            try:
+                with transaction.atomic():
+                    user = User.objects.create_user(username=username,password=password)
+                    customers.objects.create(name = username,phone_number = phone_number,address =address, user = user)
+
+
+                #clear temporary registration data
+
+                request.session.pop('username',None)
+                request.session.pop('password',None)
+                request.session.pop('phone',None)
+                request.session.pop('address',None)
+
+                return redirect("login")
+            
+            except Exception as e:
+                return render(request,'verify_otp.html',{"error_message":str(e)})
+
+        else:
+            return render(request,"verify_otp.html",{"error_message":"invalid OTP"})
+
+    return render(request,"verify_otp.html")
+        
+        
+
+        
+
+
+       
+            
+                                   
