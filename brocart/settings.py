@@ -22,23 +22,30 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = SECRET_KEY = os.environ.get(
-    "SECRET_KEY",
-    "django-insecure-local-development-key"
-)
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "True") == "True"
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
+    host.strip()
+    for host in os.environ.get(
+        'ALLOWED_HOSTS',
+        'localhost,127.0.0.1'
+    ).split(',')
 ]
+
+
 
 render_hostname = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 
 if render_hostname:
-    ALLOWED_HOSTS.append(render_hostname)   
+    ALLOWED_HOSTS.append(render_hostname) 
+
+CSRF_TRUSTED_ORIGINS = [
+    f'https://{host}'
+    for host in ALLOWED_HOSTS
+    if host not in ['localhost', '127.0.0.1']
+]
 
 
 # Application definition
@@ -101,11 +108,11 @@ if os.environ.get("DATABASE_URL"):
     }
 else:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+    'default': dj_database_url.config(
+        default='postgresql://postgres:postgres@localhost:5432/mysite',
+        conn_max_age=600
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -161,9 +168,9 @@ LOGIN_URL = '/customer/login/'
 LOGIN_REDIRECT_URL = '/products/'
 
 
-RAZORPAY_KEY_ID = "rzp_test_SuKZVCplqWPvOo"
+RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID')
 
-RAZORPAY_KEY_SECRET = "Sof006rjVV23xwuub8vmHGvo"
+RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET')
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -171,10 +178,40 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
+
+
+
 #otp verification
 
-TWILIO_ACCOUNT_SID = "your_account_sid"
+TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
 
-TWILIO_AUTH_TOKEN = "your_auth_token"
+TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
 
-TWILIO_PHONE_NUMBER = "your_twilio_number"
+TWILIO_PHONE_NUMBER = os.environ.get('TWILIO_PHONE_NUMBER')
+
+
+
+
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    },
+}
