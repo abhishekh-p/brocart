@@ -6,7 +6,8 @@ from productapp.models import product
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 import random
-
+from twilio.rest import Client
+from django.conf import settings
 
 from .models import customers
 
@@ -74,6 +75,21 @@ def register(request):
         # genarate 6 digit otp
 
         otp  = str(random.randint(100000,999999))
+
+        try:
+            client = Client(
+                settings.TWILIO_ACCOUNT_SID,
+                settings.TWILIO_AUTH_TOKEN
+            )
+
+            message = client.messages.create(
+                body=f"Your BroCart OTP is {otp}",
+                from_=settings.TWILIO_PHONE_NUMBER,
+                to=phone_number
+            )
+
+        except Exception as e:
+            print("Twilio error:", e)
 
         # store registration information temberorly
 
