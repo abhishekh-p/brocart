@@ -88,29 +88,14 @@ def register(request):
                 to=phone_number
             )
 
+            print("SMS SID:", message.sid)
+
         except Exception as e:
-            print("Twilio error:", e)
+            print("Twilio error:", repr(e))
 
-        # store registration information temberorly
-
-        request.session["username"] = username
-
-        request.session["password"] = password
-
-        request.session["phone_number"] = phone_number
-
-        request.session["address"] = address
-
-        request.session["otp"] = otp
-
-        # for now print in terminal
-
-        print(otp)
-
-
-        return redirect("verify_otp")
-
-    return render(request, "register.html")
+            return render(request, "register.html", {
+                "error_message": "OTP sending failed. Please try again."
+            })
 
 
 
