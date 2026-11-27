@@ -76,26 +76,26 @@ def register(request):
 
         otp  = str(random.randint(100000,999999))
 
-        try:
-            client = Client(
-                settings.TWILIO_ACCOUNT_SID,
-                settings.TWILIO_AUTH_TOKEN
-            )
+        # try:
+        #     client = Client(
+        #         settings.TWILIO_ACCOUNT_SID,
+        #         settings.TWILIO_AUTH_TOKEN
+        #     )
 
-            message = client.messages.create(
-                body=f"Your BroCart OTP is {otp}",
-                from_=settings.TWILIO_PHONE_NUMBER,
-                to=phone_number
-            )
+        #     message = client.messages.create(
+        #         body=f"Your BroCart OTP is {otp}",
+        #         from_=settings.TWILIO_PHONE_NUMBER,
+        #         to=phone_number
+        #     )
 
-            print("SMS SID:", message.sid)
+        #     print("SMS SID:", message.sid)
 
-        except Exception as e:
-            print("Twilio error:", repr(e))
+        # except Exception as e:
+        #     print("Twilio error:", repr(e))
 
-            return render(request, "register.html", {
-                "error_message": "OTP sending failed. Please try again."
-            })
+        #     return render(request, "register.html", {
+        #         "error_message": "OTP sending failed. Please try again."
+        #     })
 
         # store registration information temberorly
 
@@ -111,7 +111,7 @@ def register(request):
 
         # for now print in terminal
 
-        print(otp)
+        print("test otp:",otp)
 
 
         return redirect("verify_otp")
