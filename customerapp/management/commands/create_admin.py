@@ -1,3 +1,4 @@
+
 import os
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
@@ -12,14 +13,19 @@ class Command(BaseCommand):
             self.stdout.write("Admin credentials not configured.")
             return
 
-        if User.objects.filter(username=username).exists():
-            self.stdout.write("Admin already exists.")
-            return
-
-        User.objects.create_superuser(
+        user, created = User.objects.get_or_create(
             username=username,
-            email=email,
-            password=password
+            defaults={"email": email}
         )
 
-        self.stdout.write("Superuser created successfully!")
+        user.email = email
+        user.is_staff = True
+        user.is_superuser = True
+        user.is_active = True
+        user.set_password(password)
+        user.save()
+
+        self.stdout.write(
+            "Superuser created successfully!"
+            if created else "Existing superuser updated successfully!"
+        )
